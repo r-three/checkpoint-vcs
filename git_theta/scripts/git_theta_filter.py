@@ -36,6 +36,8 @@ def run_clean(args):
     """
     logger = logging.getLogger("git_theta")
     logger.debug(f"Running clean filter on {args.file}")
+    if EnvVarConstants.CHECKPOINT_TYPE == "sniff":
+        EnvVarConstants.CHECKPOINT_TYPE = checkpoints.sniff_checkpoints()
     repo = git_utils.get_git_repo()
     checkpoint_handler = checkpoints.get_checkpoint_handler()
     if EnvVarConstants.LOW_MEMORY:
@@ -74,6 +76,8 @@ def run_smudge(args):
     """
     logger = logging.getLogger("git_theta")
     logger.debug(f"Running smudge filter on {args.file}")
+    if EnvVarConstants.CHECKPOINT_TYPE == "sniff":
+        EnvVarConstants.CHECKPOINT_TYPE = checkpoints.sniff_checkpoints()
 
     repo = git_utils.get_git_repo()
     curr_metadata = metadata.Metadata.from_file(sys.stdin)

@@ -43,10 +43,11 @@ def get_version(file_name: str, version_variable: str = "__version__") -> str:
 
 # Packages to install for using different deep learning frameworks.
 frameworks_require = {
-    "pytorch": ["torch"],
-    "tensorflow": ["tensorflow"],
-    "flax": ["flax"],
-    "safetensors": ["safetensors"],
+    "pytorch": ["git_theta_checkpoints_pytorch"],
+    "torch": ["git_theta_checkpoints_pytorch"],
+    "tensorflow": ["git_theta_checkpoints_tensorflow"],
+    "flax": ["git_theta_checkpoints_flax"],
+    "safetensors": ["git_theta_checkpoints_safetensors"],
 }
 
 
@@ -114,19 +115,8 @@ setup(
             "git-theta-merge = git_theta.scripts.git_theta_merge:main",
             "git-theta-diff = git_theta.scripts.git_theta_diff:main",
         ],
-        "git_theta.plugins.checkpoints": [
-            "pytorch = git_theta.checkpoints.pickled_dict_checkpoint:PickledDictCheckpoint",
-            "pickled-dict = git_theta.checkpoints.pickled_dict_checkpoint:PickledDictCheckpoint",
-            "tf = git_theta.checkpoints.tensorflow_checkpoint:TensorFlowCheckpoint",
-            "tensorflow = git_theta.checkpoints.tensorflow_checkpoint:TensorFlowCheckpoint",
-            "tensorflow-checkpoint = git_theta.checkpoints.tensorflow_checkpoint:TensorFlowCheckpoint",
-            "tf-savedmodel = git_theta.checkpoints.tensorflow_checkpoint:TensorFlowSavedModel",
-            "tensorflow-savedmodel = git_theta.checkpoints.tensorflow_checkpoint:TensorFlowSavedModel",
-            "flax = git_theta.checkpoints.flax_checkpoint:FlaxCheckpoint",
-            "flax-checkpoint = git_theta.checkpoints.flax_checkpoint:FlaxCheckpoint",
-            "safetensors = git_theta.checkpoints.safetensors_checkpoint:SafeTensorsCheckpoint",
-            "safetensors-checkpoint = git_theta.checkpoints.safetensors_checkpoint:SafeTensorsCheckpoint",
-        ],
+        "git_theta.plugins.checkpoints": [],
+        "git_theta.plugins.checkpoint.sniffers": [],
         "git_theta.plugins.updates": [
             "dense = git_theta.updates.dense:DenseUpdate",
             "sparse = git_theta.updates.sparse:SparseUpdate",

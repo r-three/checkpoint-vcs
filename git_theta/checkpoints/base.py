@@ -157,3 +157,21 @@ def get_checkpoint_handler(checkpoint_type: Optional[str] = None) -> Checkpoint:
     checkpoint_type = get_checkpoint_handler_name(checkpoint_type)
     discovered_plugins = entry_points(group="git_theta.plugins.checkpoints")
     return discovered_plugins[checkpoint_type].load()
+
+
+def sniff_checkpoint(checkpoint_path) -> str:
+    """En"""
+    discovered_plugins = entry_points(group="git_theta.plugins.checkpoint.sniffers")
+    loaded_plugins = {ep.name: ep.load() for ep in discovered_plugins}
+    logger = logging.getLogger("git_theta")
+    logger.debug(
+        f"Sniffing {checkpoint_path} to infer which deep learning framework it is."
+    )
+    for ckpt_type, ckpt_sniffer in loaded_plugins.items():
+        logger.debug(f"Checking if {checkpoint_path} is a {ckpt_type} checkpoint.")
+        if ckpt_sniffer(checkpoint_path):
+            logger.debug(
+                f"Determined that {checkpoint_path} is a {ckpt_type} checkpoint."
+            )
+            return ckpt_type
+    raise ValueError(f"Couldn't determine checkpoint type for {checkpoint_path}")
